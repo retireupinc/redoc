@@ -16,6 +16,7 @@ import { Parameters } from '../Parameters/Parameters';
 import { RequestSamples } from '../RequestSamples/RequestSamples';
 import { ResponsesList } from '../Responses/ResponsesList';
 import { ResponseSamples } from '../ResponseSamples/ResponseSamples';
+import { TryIt } from '../TryIt/TryIt';
 import { SecurityRequirements } from '../SecurityRequirement/SecurityRequirement';
 import { SECTION_ATTR } from '../../services';
 
@@ -65,6 +66,7 @@ export const Operation = observer(({ operation }: OperationProps): JSX.Element =
             {!options.pathInMiddlePanel && !isWebhook && <Endpoint operation={operation} />}
             <RequestSamples operation={operation} />
             <ResponseSamples operation={operation} />
+            <TryIt operation={operation} />
             <CallbackSamples callbacks={operation.callbacks} />
           </DarkRightPanel>
         </Row>

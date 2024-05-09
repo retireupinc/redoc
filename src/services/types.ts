@@ -42,6 +42,7 @@ export interface LabelsConfig {
   callbackResponses: string;
   requestSamples: string;
   responseSamples: string;
+  tryIt: string;
 }
 
 export type LabelsConfigRaw = Partial<LabelsConfig>;

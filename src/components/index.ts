@@ -21,6 +21,7 @@ export * from './Responses/ResponseTitle';
 export * from './ResponseSamples/ResponseSamples';
 export * from './PayloadSamples/PayloadSamples';
 export * from './PayloadSamples/styled.elements';
+export * from './TryIt/TryIt';
 export * from './MediaTypeSwitch/MediaTypesSwitch';
 export * from './Parameters/Parameters';
 export * from './PayloadSamples/Example';
