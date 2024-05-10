@@ -20,6 +20,7 @@ const labels: LabelsConfig = {
   requestSamples: 'Request samples',
   responseSamples: 'Response samples',
   tryIt: 'Try It',
+  response: 'Response',
 };
 
 export function setRedocLabels(_labels?: LabelsConfigRaw) {
