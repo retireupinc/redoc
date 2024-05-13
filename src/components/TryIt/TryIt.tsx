@@ -1,12 +1,35 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { isPayloadSample, OperationModel, RedocNormalizedOptions } from '../../services';
-import { PayloadSamples } from '../PayloadSamples/PayloadSamples';
-import { SourceCodeWithCopy } from '../SourceCode/SourceCode';
+import { OperationModel, RedocNormalizedOptions } from '../../services';
 
-import { RightPanelHeader, Tab, TabList, TabPanel, Tabs } from '../../common-elements';
+import { RightPanelHeader, Tab, TabList, Tabs } from '../../common-elements';
 import { OptionsContext } from '../OptionsProvider';
 import { l } from '../../services/Labels';
+
+import styled from '../../styled-components';
+
+const ParametersList = styled.div`
+  background: #11171a;
+  padding: 20px;
+  margin: 0;
+`;
+
+const ParameterRow = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+`;
+
+const ParameterCol = styled.div`
+  padding-right: 20px;
+  min-width: 150px;
+  display: flex;
+  align-content: center;
+`;
+
+const ParamInput = styled.input`
+  width: 200px;
+`;
 
 export interface TryItProps {
   operation: OperationModel;
@@ -25,10 +48,15 @@ export class TryIt extends React.Component<TryItProps> {
       return response.content && response.content.hasSample;
     });
 
+    console.log(operation);
     const hasSamples = samples.length > 0;
     const hideTabList = samples.length === 1 ? this.context.hideSingleRequestSampleTab : false;
+
+    const parameters = operation.parameters;
+    console.log(parameters);
+
     return (
-      (hasSamples && responses.length && (
+      (hasSamples && responses.length && parameters.length && (
         <div>
           <RightPanelHeader> {l('tryIt')} </RightPanelHeader>
 
@@ -38,34 +66,20 @@ export class TryIt extends React.Component<TryItProps> {
                 <Tab key={sample.lang + '_' + (sample.label || '')}>Execute</Tab>
               ))}
             </TabList>
-            {samples.map(sample => (
-              <TabPanel key={sample.lang + '_' + (sample.label || '')}>
-                {isPayloadSample(sample) ? (
-                  <div>
-                    <PayloadSamples content={sample.requestBodyContent} />
-                  </div>
-                ) : (
-                  <SourceCodeWithCopy lang={sample.lang} source={sample.source} />
-                )}
-              </TabPanel>
-            ))}
-          </Tabs>
-          <RightPanelHeader> {l('response')} </RightPanelHeader>
-          <Tabs defaultIndex={0}>
-            <TabList>
-              {responses.map(response => (
-                <Tab className={'tab-' + response.type} key={response.code}>
-                  {response.code}
-                </Tab>
+            <ParametersList>
+              Parameters ({parameters.length})
+              {parameters.map(param => (
+                <ParameterRow key={param.name}>
+                  <ParameterCol>{param.name}</ParameterCol>
+                  <ParameterCol>
+                    <ParamInput
+                      type="text"
+                      placeholder={`string${param.required ? ' (required)' : ''}`}
+                    ></ParamInput>
+                  </ParameterCol>
+                </ParameterRow>
               ))}
-            </TabList>
-            {responses.map(response => (
-              <TabPanel key={response.code}>
-                <div>
-                  <PayloadSamples content={response.content!} />
-                </div>
-              </TabPanel>
-            ))}
+            </ParametersList>
           </Tabs>
         </div>
       )) ||
