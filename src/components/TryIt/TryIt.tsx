@@ -18,12 +18,15 @@ const ParameterRow = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
+  padding: 10px;
+  &:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
 `;
 
 const ParameterCol = styled.div`
   padding-right: 20px;
   min-width: 150px;
-  display: flex;
   align-content: center;
 `;
 
