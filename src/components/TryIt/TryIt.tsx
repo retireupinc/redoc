@@ -31,7 +31,7 @@ const ParameterCol = styled.div`
 `;
 
 const ParamInput = styled.input`
-  width: 200px;
+  width: 300px;
 `;
 
 export interface TryItProps {
@@ -46,29 +46,29 @@ export class TryIt extends React.Component<TryItProps> {
 
   render() {
     const { operation } = this.props;
-    const samples = operation.codeSamples;
-    const responses = operation.responses.filter(response => {
-      return response.content && response.content.hasSample;
-    });
+    // const samples = operation.codeSamples;
+    // const responses = operation.responses.filter(response => {
+    //   return response.content && response.content.hasSample;
+    // });
 
-    console.log(operation);
-    const hasSamples = samples.length > 0;
-    const hideTabList = samples.length === 1 ? this.context.hideSingleRequestSampleTab : false;
+    // console.log(operation);
+    // const hasSamples = samples.length > 0;
+    // const hideTabList = samples.length === 1 ? this.context.hideSingleRequestSampleTab : false;
 
     const parameters = operation.parameters;
-    console.log(parameters);
+    // const httpVerb = operation.httpVerb
+    // console.log(httpVerb, parameters);
 
     return (
-      (hasSamples && responses.length && parameters.length && (
-        <div>
-          <RightPanelHeader> {l('tryIt')} </RightPanelHeader>
+      <div>
+        <RightPanelHeader> {l('tryIt')} </RightPanelHeader>
 
-          <Tabs defaultIndex={0}>
-            <TabList hidden={hideTabList}>
-              {samples.map(sample => (
-                <Tab key={sample.lang + '_' + (sample.label || '')}>Execute</Tab>
-              ))}
-            </TabList>
+        <Tabs defaultIndex={0}>
+          <TabList>
+            <Tab>Execute</Tab>
+          </TabList>
+
+          {parameters.length ? (
             <ParametersList>
               Parameters ({parameters.length})
               {parameters.map(param => (
@@ -83,10 +83,9 @@ export class TryIt extends React.Component<TryItProps> {
                 </ParameterRow>
               ))}
             </ParametersList>
-          </Tabs>
-        </div>
-      )) ||
-      null
+          ) : null}
+        </Tabs>
+      </div>
     );
   }
 }
